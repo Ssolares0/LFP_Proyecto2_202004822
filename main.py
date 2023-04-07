@@ -22,7 +22,7 @@ def new_File():
     text2save = str(labelFrame.get(1.0, END))
     file.write(text2save)
     file.close()
-
+#Funcion para abrir el archivo
 def windowOpenFile():
     global objeto
     global ruta
@@ -33,6 +33,29 @@ def windowOpenFile():
     except:
         messagebox.showerror("ERROR","No se ha cargado correctamente la ruta")   
 
+#Funcion para guardar el archivo
+def windowSaveFile():
+    try:    
+        modRuta= open(ruta,"w",encoding="utf-8")
+
+        modRuta.write(str(labelFrame.get(1.0,END)))
+        messagebox.showinfo(message="Guardado Correctamente", title=":)")
+    except:
+        messagebox.showinfo(message="Cargue el archivo primero", title=":)")
+        windowOpenFile()
+
+#Funcion para guardar el archivo como
+def windowSaveAsFile():
+    try:
+        #SELECCIONAMOS EL ARCHIVO
+        ruta = filedialog.asksaveasfile( filetypes=[("Text file",".txt"),("HTML file", ".html"),("All files", ".*"),])
+
+        #ESCRIBIMOS EN EL ARCHIVO SELECCIONADO
+        archivoText = str(labelFrame.get(1.0,END))
+        ruta.write(archivoText)
+        ruta.close()
+    except:
+        pass 
 def display_coordinates(event):
     x = event.x
     y = event.y
@@ -40,13 +63,43 @@ def display_coordinates(event):
     labelCoords['text'] = f'(x={x}, y={y})'
 
 
+def generarMongoDB():
+    pass
+
+def mostrarTokens():
+    pass
+
+def mostrarErrores():    
+    pass
+
+def exit():
+    window.destroy()
+
 barra_menu = Menu(window)
+
 #Creamos los menus
 mnuArchivo = Menu(barra_menu)
-mnuEdicion = Menu(barra_menu)
-#Creamos los comandos de los menus
+mnuAnalisis = Menu(barra_menu)
+mnuTokens = Menu(barra_menu)
+mnuErrores = Menu(barra_menu)
+
+#Creamos los comandos deL apartado archivo
 mnuArchivo.add_command(label="Nuevo")
+mnuArchivo.add_command(label="Abrir", command=windowOpenFile)
+mnuArchivo.add_command(label="Guardar", command=windowSaveFile)
+mnuArchivo.add_command(label="Guardar como", command=windowSaveAsFile)
+mnuArchivo.add_command(label="Salir", command=exit)
 mnuArchivo.add_separator()
+
+#Creamos los comandos del apartado analisis
+mnuAnalisis.add_command(label="Generar sentencias MongoDB", command=generarMongoDB)
+
+#Creamos los comandos del apartado tokens
+mnuTokens.add_command(label="Mostrar tokens", command=mostrarTokens)
+
+#Creamos los comandos del apartado errores
+mnuErrores.add_command(label="Mostrar errores", command=mostrarErrores)
+
 
 
 # Frame del texto general
@@ -62,6 +115,10 @@ labelCoords.place(x=25,y=630,width= 100, height=28)
 
 
 barra_menu.add_cascade(label="Archivo", menu=mnuArchivo)
+barra_menu.add_cascade(label="Analisis", menu=mnuAnalisis)
+barra_menu.add_cascade(label="Tokens", menu=mnuTokens)
+barra_menu.add_cascade(label="Errores", menu=mnuErrores)
+
 #indicamos que la barra de menus esta en la ventana
 window.config(menu=barra_menu)
 
