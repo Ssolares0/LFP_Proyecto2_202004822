@@ -8,6 +8,7 @@ import tkinter as tk
 import webbrowser
 
 window = Tk()
+
 window.title("Proyecto 2 LFP")
 window.geometry('1000x700')
 window.configure(background = "light blue")
@@ -32,24 +33,35 @@ def windowOpenFile():
     except:
         messagebox.showerror("ERROR","No se ha cargado correctamente la ruta")   
 
+def display_coordinates(event):
+    x = event.x
+    y = event.y
+    
+    labelCoords['text'] = f'(x={x}, y={y})'
+
 
 barra_menu = Menu(window)
-
 #Creamos los menus
 mnuArchivo = Menu(barra_menu)
 mnuEdicion = Menu(barra_menu)
-
 #Creamos los comandos de los menus
-
 mnuArchivo.add_command(label="Nuevo")
 mnuArchivo.add_separator()
 
 
+# Frame del texto general
 labelFrame = tk.Text(window)
 labelFrame.place(x=25,y=50,width= 920, height=565)
+labelFrame.bind("<Button-1>", display_coordinates)
+
+#Capturar coordenadas x,y del mouse
+labelCoords = Label(window)
+labelCoords.place(x=25,y=630,width= 100, height=28)
+
+
+
 
 barra_menu.add_cascade(label="Archivo", menu=mnuArchivo)
-
 #indicamos que la barra de menus esta en la ventana
 window.config(menu=barra_menu)
 
