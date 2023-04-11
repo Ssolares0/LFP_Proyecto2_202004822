@@ -6,14 +6,14 @@ from tkinter import filedialog
 from tkinter.font import BOLD
 import tkinter as tk
 import webbrowser
-
+from AnalizadorLexico import *
 window = Tk()
 
 window.title("Proyecto 2 LFP")
 window.geometry('1000x700')
-window.configure(background = "light blue")
+window.configure(background = "pale green")
 
-Label(window,text="Proyecto 1 LFP",bg="light blue",fg="black",font=("times new roman",15,BOLD)).pack()
+Label(window,text="Proyecto 1 LFP",bg="pale green",fg="black",font=("times new roman",15,BOLD)).pack()
 
 def new_File():
     file = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
@@ -64,8 +64,15 @@ def display_coordinates(event):
 
 
 def generarMongoDB():
-    pass
+    cadena = open(ruta,"r+",encoding="utf-8")
+    cadenaleido = cadena.read()
 
+    mandar = AnalizadorLex()
+    
+    #mandamos el contenido del archivo a analizar
+    mandar.analizar(cadenaleido)
+    mandar.imprimirTokens()
+    mandar.imprimirErrores()
 def mostrarTokens():
     pass
 
