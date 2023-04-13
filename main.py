@@ -16,6 +16,7 @@ window.configure(background = "pale green")
 
 Label(window,text="Proyecto 1 LFP",bg="pale green",fg="black",font=("times new roman",15,BOLD)).pack()
 print("hola")
+print("hoadasdas")
 def new_File():
     file = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
     if file is None:
