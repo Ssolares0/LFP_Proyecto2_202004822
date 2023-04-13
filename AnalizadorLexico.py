@@ -1,5 +1,7 @@
 from Error import *
 from Token import *
+from tkinter import *
+from tkinter import ttk
 from prettytable import PrettyTable
 
 class AnalizadorLex:
@@ -36,7 +38,7 @@ class AnalizadorLex:
             self.buffer += caracter
             self.columna += 1
 
-        elif caracter =='"':
+        elif caracter == '"':
             self.estado = 4
             self.buffer += caracter
             self.columna += 1
@@ -56,13 +58,17 @@ class AnalizadorLex:
             self.buffer += caracter
             self.columna += 1    
         elif caracter == '{':
-            self.estado = 7
+            self.estado = 8
             self.buffer += caracter
             self.columna += 1    
         elif caracter == '}':
-            self.estado = 7
+            self.estado = 9
             self.buffer += caracter
-            self.columna += 1       
+            self.columna += 1
+        elif caracter == ':':
+            self.estado = 10
+            self.buffer += caracter
+            self.columna += 1           
         elif caracter== '\n':
             self.linea += 1
             self.columna = 0
@@ -138,7 +144,13 @@ class AnalizadorLex:
         '''Estado S5'''                
         self.agregar_token(self.buffer,self.linea,self.columna,'llaveDerecha')
         self.estado = 0
-        self.i -= 1        
+        self.i -= 1   
+
+    def s10(self,caracter : str):
+        '''Estado S5'''                
+        self.agregar_token(self.buffer,self.linea,self.columna,'dosPuntos')
+        self.estado = 0
+        self.i -= 1             
 
 
     
@@ -169,9 +181,14 @@ class AnalizadorLex:
             elif self.estado == 8:
                 self.s8(cadena[self.i])   
             elif self.estado == 9:
-                self.s9(cadena[self.i])                             
+                self.s9(cadena[self.i])  
+            elif self.estado == 10:
+                self.s10(cadena[self.i])                                
 
             self.i += 1    
+
+    def mostrarDatos(tabla):
+        tabla.insert('','0',text='1',values='hola')
 
     def imprimirTokens(self):
         '''Imprime una tabla con los tokens'''
@@ -180,6 +197,14 @@ class AnalizadorLex:
         for token in self.listaTokens:
             x.add_row([token.lexema, token.linea, token.columna,token.tipo])
         print(x)
+
+        '''ventana=Tk()
+        tabla=ttk.Treeview(ventana,columns=2)
+        tabla.grid(row=1,column=0,columnspan=2)
+        tabla.heading("#0",text="ID")
+        tabla.heading("#1",text="NOMBRE")
+        mostrarDatos(tabla)
+        ventana.mainloop()'''
 
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''

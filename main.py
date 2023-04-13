@@ -7,6 +7,7 @@ from tkinter.font import BOLD
 import tkinter as tk
 import webbrowser
 from AnalizadorLexico import *
+from AnalizadorSintactico import *
 window = Tk()
 
 window.title("Proyecto 2 LFP")
@@ -69,10 +70,28 @@ def generarMongoDB():
 
     mandar = AnalizadorLex()
     
+
+    
     #mandamos el contenido del archivo a analizar
     mandar.analizar(cadenaleido)
+
+    #imprimimos los tokens y errores
     mandar.imprimirTokens()
     mandar.imprimirErrores()
+
+    #mandamos la lista de tokens a analizar
+    lsttk = mandar.listaTokens
+
+    #mandamos la lista de tokens a analizar
+    sintactico = AnalizadorSintactico(lsttk)
+    sintactico.analizar()
+
+    #imprimimos los errores sintacticos
+    sintactico.imprimirErrores()
+
+   
+    
+
 def mostrarTokens():
     pass
 
