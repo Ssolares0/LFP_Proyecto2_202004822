@@ -1,4 +1,5 @@
 from prettytable import PrettyTable
+from bases import *
 
 class AnalizadorSintactico:
 
@@ -62,6 +63,7 @@ class AnalizadorSintactico:
         token = self.sacarToken()
         if token.tipo == 'reservada_CrearBD':
             token = self.sacarToken()
+            nombre_creacion = token.lexema
             if token is None:
                 self.agregarError('identificador','EOF')
                 return
@@ -102,6 +104,9 @@ class AnalizadorSintactico:
                                         return
                                     elif token.tipo == 'puntoYComa':
                                         token = self.sacarToken()
+                                        CrearBD(nombre_creacion)
+                                        
+                                        
                                     else:
                                         self.agregarError('puntoYComa',token.tipo)
                                         print('Error falta punto y coma')    
