@@ -106,34 +106,36 @@ def display_coordinates(event):
 def generarMongoDB():
     global lsttk2
     global lsttkErrores
-    cadena = open(ruta,"r+",encoding="utf-8")
-    cadenaleido = cadena.read()
+    try:
+        cadena = open(ruta,"r+",encoding="utf-8")
+        cadenaleido = cadena.read()
 
-    mandar = AnalizadorLex()
-    
+        mandar = AnalizadorLex()
+        
 
-    
-    #mandamos el contenido del archivo a analizar
-    mandar.analizar(cadenaleido)
+        
+        #mandamos el contenido del archivo a analizar
+        mandar.analizar(cadenaleido)
 
-    #imprimimos los tokens y errores
-    
+        #imprimimos los tokens y errores
+        
 
-    #mandamos la lista de tokens a analizar
-    lsttk = mandar.listaTokens
+        #mandamos la lista de tokens a analizar
+        lsttk = mandar.listaTokens
 
-    lsttk2=mandar.listaTokensOriginal
+        lsttk2=mandar.listaTokensOriginal
 
-    lsttkErrores = mandar.listaErrores
+        lsttkErrores = mandar.listaErrores
 
-    
-    #mandamos la lista de tokens a analizar
-    sintactico = AnalizadorSintactico(lsttk)
-    sintactico.analizar()
+        
+        #mandamos la lista de tokens a analizar
+        sintactico = AnalizadorSintactico(lsttk)
+        sintactico.analizar()
 
-    #imprimimos los errores sintacticos
-    sintactico.imprimirErrores()
-
+        #imprimimos los errores sintacticos
+        sintactico.imprimirErrores()
+    except:
+        messagebox.showinfo(message=" Primero cargue el archivo", title=":)")
    
     
 
