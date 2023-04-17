@@ -7,6 +7,7 @@ from prettytable import PrettyTable
 class AnalizadorLex:
     def __init__(self) -> None:
         self.listaTokens  = []
+        self.listaTokensOriginal = []
         self.listaErrores = []
         self.linea = 1
         self.columna = 0
@@ -16,6 +17,7 @@ class AnalizadorLex:
 
     def agregar_token(self,caracter,linea,columna,token):
         self.listaTokens.append(Token(caracter,linea,columna,token))
+        self.listaTokensOriginal.append(Token(caracter,linea,columna,token))
         self.buffer = ''
 
 
@@ -68,13 +70,13 @@ class AnalizadorLex:
         elif caracter == ':':
             self.estado = 10
             self.buffer += caracter
-            self.columna += 1           
+            self.columna += 1               
         elif caracter== '\n':
             self.linea += 1
             self.columna = 0
         elif caracter in ['\t',' ']:
             self.columna += 1
-        elif caracter == '$':
+        elif caracter == '#':
             print('Se terminó el análisis')
         else:
             self.agregar_error(caracter,self.linea,self.columna)               
@@ -91,7 +93,7 @@ class AnalizadorLex:
             self.buffer += caracter
             self.columna += 1          
         else: 
-            if self.buffer in ['CrearBD','EliminarBD','CrearColeccion','EliminarColeccion','InsertarUnico','ActualizarUnico','EliminarUnico','BuscarTodo','BuscarUnico']:
+            if self.buffer in ['CrearBD','nueva','EliminarBD','$set','CrearColeccion','EliminarColeccion','InsertarUnico','ActualizarUnico','EliminarUnico','BuscarTodo','BuscarUnico']:
                 self.agregar_token(self.buffer,self.linea,self.columna,'reservada_'+self.buffer)    
                 self.estado = 0
                 self.i -= 1
@@ -150,14 +152,15 @@ class AnalizadorLex:
         '''Estado S5'''                
         self.agregar_token(self.buffer,self.linea,self.columna,'dosPuntos')
         self.estado = 0
-        self.i -= 1             
+        self.i -= 1   
+                  
 
 
     
 
     def analizar(self, cadena):
-        cadena = cadena + '$'
-        print(cadena)
+        cadena = cadena + '#'
+        
         self.listaErrores = []
         self.listaTokens = []
         self.i = 0
@@ -183,28 +186,26 @@ class AnalizadorLex:
             elif self.estado == 9:
                 self.s9(cadena[self.i])  
             elif self.estado == 10:
-                self.s10(cadena[self.i])                                
+                self.s10(cadena[self.i])   
+                                              
 
             self.i += 1    
 
-    def mostrarDatos(tabla):
+    '''def mostrarDatos(tabla):
         tabla.insert('','0',text='1',values='hola')
-
+'''
     def imprimirTokens(self):
-        '''Imprime una tabla con los tokens'''
+        count = 1
+        #Imprime una tabla con los tokens
         x = PrettyTable()
         x.field_names = ["Lexema","linea","columna","tipo"]
         for token in self.listaTokens:
             x.add_row([token.lexema, token.linea, token.columna,token.tipo])
+            count += 1
         print(x)
 
-        '''ventana=Tk()
-        tabla=ttk.Treeview(ventana,columns=2)
-        tabla.grid(row=1,column=0,columnspan=2)
-        tabla.heading("#0",text="ID")
-        tabla.heading("#1",text="NOMBRE")
-        mostrarDatos(tabla)
-        ventana.mainloop()'''
+       
+        
 
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''

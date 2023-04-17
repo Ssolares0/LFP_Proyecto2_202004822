@@ -36,7 +36,7 @@ class AnalizadorSintactico:
     def INICIO(self):
         temp = self.observarToken()
         if temp is None:
-            self.agregarError('reservada_CrearBD | reservada_ElmiminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico','EOF') 
+            self.agregarError('reservada_CrearBD | reservada_EliminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico','EOF') 
 
         if temp.tipo == 'reservada_CrearBD':
             self.CREARBD()
@@ -60,6 +60,8 @@ class AnalizadorSintactico:
             self.agregarError('reservada_CrearBD | reservada_ElmiminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico',temp.tipo) 
 
     def CREARBD(self):
+
+        
         token = self.sacarToken()
         if token.tipo == 'reservada_CrearBD':
             token = self.sacarToken()
@@ -77,9 +79,9 @@ class AnalizadorSintactico:
                     token = self.sacarToken()
 
                     if token is None:
-                        self.agregarError('identificador','EOF')
+                        self.agregarError('reservada_nueva','EOF')
                         return
-                    elif token.tipo == 'identificador':
+                    elif token.tipo == 'reservada_nueva':
                         token = self.sacarToken()
 
                         if token is None:
@@ -103,7 +105,7 @@ class AnalizadorSintactico:
                                         self.agregarError('puntoYComa','EOF')
                                         return
                                     elif token.tipo == 'puntoYComa':
-                                        token = self.sacarToken()
+                                        
                                         CrearBD(nombre_creacion)
                                         
                                         
@@ -122,7 +124,7 @@ class AnalizadorSintactico:
                             print('Error falta reservada CrearBD')
                     else:
                         self.agregarError('identificador',token.tipo)
-                        print('Error falta identificador')
+                        print('Error falta reservada nueva')
                 else:
                     self.agregarError('signoIgual',token.tipo)
                     print('Error falta signo igual')
@@ -135,25 +137,81 @@ class AnalizadorSintactico:
             
 
     def ELIMINARBD(self):
-        temp = self.sacarToken()
-        if temp is None:
-            self.agregarError('reservada_EliminarBD','EOF') 
-        if temp.tipo == 'reservada_EliminarBD':
-            temp = self.sacarToken()
-            if temp is None:
-                self.agregarError('identificador','EOF') 
-            if temp.tipo == 'identificador':
-                temp = self.sacarToken()
-                if temp is None:
-                    self.agregarError('simbolo_punto_coma','EOF') 
-                if temp.tipo == 'simbolo_punto_coma':
-                    self.INICIO()
+        print('aaaa')
+        token = self.sacarToken()
+        if token.tipo == 'reservada_EliminarBD':
+            token = self.sacarToken()
+            nombre_creacion = token.lexema
+            if token is None:
+                self.agregarError('identificador','EOF')
+                return
+            elif token.tipo ==  'identificador':
+                token = self.sacarToken()
+
+                if token is None:
+                    self.agregarError('signoIgual','EOF')
+                    return
+                elif token.tipo == 'signoIgual':
+                    token = self.sacarToken()
+
+                    if token is None:
+                        self.agregarError('identificador','EOF')
+                        return
+                    elif token.tipo == 'identificador':
+                        token = self.sacarToken()
+
+                        if token is None:
+                            self.agregarError('reservada_EliminarBD','EOF')
+                            return
+                        elif token.tipo == 'reservada_EliminarBD':
+                            token = self.sacarToken()
+
+                            if token is None:
+                                self.agregarError('parentesisIzquierdo','EOF')
+                            elif token.tipo == 'parentesisIzquierdo':
+                                token = self.sacarToken()
+
+                                if token is None:
+                                    self.agregarError('parentesisDerecho','EOF')
+                                    return    
+                                elif token.tipo == 'parentesisDerecho':
+                                    token = self.sacarToken()
+
+                                    if token is None:
+                                        self.agregarError('puntoYComa','EOF')
+                                        return
+                                    elif token.tipo == 'puntoYComa':
+                                        token = self.sacarToken()
+                                        print('si llego ')
+                                        EliminarBD(nombre_creacion)
+                                        
+                                        
+                                    else:
+                                        self.agregarError('puntoYComa',token.tipo)
+                                        print('Error falta punto y coma')    
+
+                                else:
+                                    self.agregarError('parentesisDerecho',token.tipo)
+                                    print('Error falta parentesis Derecho')
+                            else:
+                                self.agregarError('parentesisIzquierdo',token.tipo)
+                                print('Error falta parentesis Izquierdo')
+                        else:
+                            self.agregarError('reservada_EliminarBD',token.tipo)
+                            print('Error falta reservada EliminarBD')
+                    else:
+                        self.agregarError('identificador',token.tipo)
+                        print('Error falta identificador')
                 else:
-                    self.agregarError('simbolo_punto_coma',temp.tipo) 
+                    self.agregarError('signoIgual',token.tipo)
+                    print('Error falta signo igual')
             else:
-                self.agregarError('identificador',temp.tipo) 
+                self.agregarError('identificador',token.tipo)
+                print('Error falta identificador')
         else:
-            self.agregarError('reservada_EliminarBD',temp.tipo)        
+            self.agregarError('reservada_EliminarBD','EOF')
+            print('Error')
+
 
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''
