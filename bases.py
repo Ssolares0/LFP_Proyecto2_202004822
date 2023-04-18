@@ -1,7 +1,7 @@
 
 
 def CrearBD(name):
-    print(name)
+    print(f'use(\'{name}\');')
 
 def EliminarBD(name):
-    print(name)
+    print(f'db.dropDatabase();')

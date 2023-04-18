@@ -38,29 +38,36 @@ class AnalizadorSintactico:
         if temp is None:
             self.agregarError('reservada_CrearBD | reservada_EliminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico','EOF') 
 
-        if temp.tipo == 'reservada_CrearBD':
+        elif temp.tipo == 'reservada_CrearBD':
+
             self.CREARBD()
-        if temp.tipo == 'reservada_EliminarBD':
+            self.analizar()
+        elif temp.tipo == 'reservada_EliminarBD':
+            
             self.ELIMINARBD()
-        if temp.tipo == 'reservada_CrearColeccion':
-            self.CREARCOLECCION()               
-        if temp.tipo == 'reservada_EliminarColeccion':
+            self.analizar()
+        elif temp.tipo == 'reservada_CrearColeccion':
+            self.CREARCOLECCION() 
+            self.analizar()              
+        elif temp.tipo == 'reservada_EliminarColeccion':
             self.ELIMINARCOLECCION()
-        if temp.tipo == 'reservada_InsertarUnico':
+            self.analizar()
+        elif temp.tipo == 'reservada_InsertarUnico':
             self.INSERTARUNICO()
-        if temp.tipo == 'reservada_ActualizarUnico':
+            self.analizar()
+        elif temp.tipo == 'reservada_ActualizarUnico':
             self.ACTUALIZARUNICO()
-        if temp.tipo == 'reservada_EliminarUnico':
+        elif temp.tipo == 'reservada_EliminarUnico':
             self.ELIMINARUNICO()
-        if temp.tipo == 'reservada_BuscarTodo':
+        elif temp.tipo == 'reservada_BuscarTodo':
             self.BUSCARTODO()
-        if temp.tipo == 'reservada_BuscarUnico':
+        elif temp.tipo == 'reservada_BuscarUnico':
             self.BUSCARUNICO()
         else:
             self.agregarError('reservada_CrearBD | reservada_ElmiminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico',temp.tipo) 
-
+        
     def CREARBD(self):
-
+        
         
         token = self.sacarToken()
         if token.tipo == 'reservada_CrearBD':
@@ -134,10 +141,11 @@ class AnalizadorSintactico:
         else:
             self.agregarError('reservada_CrearBD','EOF')
             print('Error')
-            
+       
+               
 
     def ELIMINARBD(self):
-        print('aaaa')
+        
         token = self.sacarToken()
         if token.tipo == 'reservada_EliminarBD':
             token = self.sacarToken()
@@ -155,9 +163,9 @@ class AnalizadorSintactico:
                     token = self.sacarToken()
 
                     if token is None:
-                        self.agregarError('identificador','EOF')
+                        self.agregarError('reservada_nueva','EOF')
                         return
-                    elif token.tipo == 'identificador':
+                    elif token.tipo == 'reservada_nueva':
                         token = self.sacarToken()
 
                         if token is None:
@@ -200,8 +208,8 @@ class AnalizadorSintactico:
                             self.agregarError('reservada_EliminarBD',token.tipo)
                             print('Error falta reservada EliminarBD')
                     else:
-                        self.agregarError('identificador',token.tipo)
-                        print('Error falta identificador')
+                        self.agregarError('reservada_nueva',token.tipo)
+                        print('Error falta reservada_nueva')
                 else:
                     self.agregarError('signoIgual',token.tipo)
                     print('Error falta signo igual')
