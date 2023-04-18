@@ -189,7 +189,7 @@ class AnalizadorSintactico:
                                         self.agregarError('puntoYComa','EOF')
                                         return
                                     elif token.tipo == 'puntoYComa':
-                                        token = self.sacarToken()
+                                        
                                         print('si llego ')
                                         EliminarBD(nombre_creacion)
                                         
@@ -220,6 +220,115 @@ class AnalizadorSintactico:
             self.agregarError('reservada_EliminarBD','EOF')
             print('Error')
 
+    def CREARCOLECCION(self):
+        
+        token = self.sacarToken()
+        if token.tipo == 'reservada_CrearColeccion':
+            token = self.sacarToken()
+            
+            if token is None:
+                self.agregarError('identificador','EOF')
+                return
+            elif token.tipo ==  'identificador':
+                token = self.sacarToken()
+                nombre_creacion = token.lexema
+
+                if token is None:
+                    self.agregarError('signoIgual','EOF')
+                    return
+                elif token.tipo == 'signoIgual':
+                    token = self.sacarToken()
+
+                    if token is None:
+                        self.agregarError('reservada_nueva','EOF')
+                        return
+                    elif token.tipo == 'reservada_nueva':
+                        token = self.sacarToken()
+
+                        if token is None:
+                            self.agregarError('reservada_CrearColeccion','EOF')
+                            return
+                        elif token.tipo == 'reservada_CrearColeccion':
+                            token = self.sacarToken()
+
+                            if token is None:
+                                self.agregarError('parentesisIzquierdo','EOF')
+                            elif token.tipo == 'parentesisIzquierdo':
+                                token = self.sacarToken()
+
+                                if token is None:
+                                    self.agregarError('comillasDobles','EOF')
+                                    return    
+                                elif token.tipo == 'comillasDobles':
+                                    token = self.sacarToken()
+
+                                    if token is None:
+                                        self.agregarError('identificador','EOF')
+                                        return
+                                    elif token.tipo == 'identificador':
+                                        token = self.sacarToken()
+                                        
+
+                                        
+                                        if token is None:
+                                            self.agregarError('comillasDobles','EOF')
+                                            return
+                                        elif token.tipo == 'comillasDobles':
+                                            token = self.sacarToken()
+
+                                            if token is None:
+                                                self.agregarError('parentesisDerecho','EOF')
+                                                return    
+                                            elif token.tipo == 'parentesisDerecho':
+                                                token = self.sacarToken()
+
+
+                                                if token is None:
+                                                    self.agregarError('puntoYComa','EOF')
+                                                    return
+                                                elif token.tipo == 'puntoYComa':
+
+                                                    
+                                                    print('si llego al final de crear coleccion ')
+                                                    CrearColeccion(nombre_creacion)
+
+                                                else:
+                                                    self.agregarError('puntoYComa',token.tipo)
+                                                    print('Error falta punto y coma')
+                                                
+                                            else:
+                                                self.agregarError('parentesisDerecho',token.tipo)
+                                                print('Error falta parentesisDerecho')
+
+                                        else:
+                                            self.agregarError('comillasDobles',token.tipo)
+                                            print('Error falta comillasDobles')
+                                        
+                                    else:
+                                        self.agregarError('identificador',token.tipo)
+                                        print('Error falta identificador')    
+
+                                else:
+                                    self.agregarError('comillasDobles',token.tipo)
+                                    print('Error falta comillasDobles')
+                            else:
+                                self.agregarError('parentesisIzquierdo',token.tipo)
+                                print('Error falta parentesis Izquierdo')
+                        else:
+                            self.agregarError('reservada_CrearColeccion',token.tipo)
+                            print('Error falta reservada_CrearColeccion')
+                    else:
+                        self.agregarError('reservada_nueva',token.tipo)
+                        print('Error falta reservada_nueva')
+                else:
+                    self.agregarError('signoIgual',token.tipo)
+                    print('Error falta signo igual')
+            else:
+                self.agregarError('identificador',token.tipo)
+                print('Error falta identificador')
+        else:
+            self.agregarError('reservada_CrearColeccion','EOF')
+            print('Error')
 
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''
