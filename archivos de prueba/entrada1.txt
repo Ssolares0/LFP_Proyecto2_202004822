@@ -54,3 +54,23 @@ BuscarUnico todo = nueva BuscarUnico ("NombreColeccion");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

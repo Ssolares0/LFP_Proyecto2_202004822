@@ -9,6 +9,7 @@ from prettytable import PrettyTable
 import webbrowser
 from AnalizadorLexico import *
 from AnalizadorSintactico import *
+from bases import *
 global ruta
 
 
@@ -106,6 +107,7 @@ def display_coordinates(event):
 def generarMongoDB():
     global lsttk2
     global lsttkErrores
+    global lsttkErroresSintacticos
     try:
         cadena = open(ruta,"r+",encoding="utf-8")
         cadenaleido = cadena.read()
@@ -126,14 +128,22 @@ def generarMongoDB():
         lsttk2=mandar.listaTokensOriginal
 
         lsttkErrores = mandar.listaErrores
+        
 
         
         #mandamos la lista de tokens a analizar
         sintactico = AnalizadorSintactico(lsttk)
         sintactico.analizar()
+        lsttkErroresSintacticos = sintactico.errores
+
+        
+        
 
         #imprimimos los errores sintacticos
         sintactico.imprimirErrores()
+        
+        mostrarSalida()
+        
     except:
         messagebox.showinfo(message=" Primero cargue el archivo", title=":)")
    
@@ -208,7 +218,50 @@ def mostrarErrores():
         ventana.mainloop()
     except:
         messagebox.showinfo(message="Analice Primero el archivo", title=":)")    
-
+def mostrarErroresSintacticos():
+    try:
+        
+            
+        
+        count=1
+        def mostrarDatos(tabla):
+            count = 1
+            for error in lsttkErroresSintacticos:
+                
+                tabla.insert('','0',text=count,values=([error]))
+                
+                count = count + 1
+                #tabla.insert('','0',text='2',values=token.linea)
+            #tabla.insert('','0',text='1',values='hola')
+        
+        
+        
+        
+        
+        ventana=Tk()
+        
+        tabla=ttk.Treeview(ventana,columns=('#0','#1'))
+        tabla.grid(row=1,column=0,columnspan=2)
+        tabla.heading("#0",text="No")
+        tabla.heading("#1",text="Descripcion")
+        
+        
+        mostrarDatos(tabla)
+        ventana.mainloop()
+    except:
+        messagebox.showinfo(message="Analice Primero el archivo", title=":)")   
+def mostrarSalida():
+        lstSalidas = salidas
+        print(lstSalidas)
+        labelFrame2.delete(1.0,END)
+        for x in lstSalidas:
+            labelFrame2.insert(END,f"{x}\n")
+        lstSalidas.clear()
+            
+        
+        
+    
+        
 def exit():
     window.destroy()
 
@@ -236,6 +289,7 @@ mnuTokens.add_command(label="Mostrar tokens", command=mostrarTokens)
 
 #Creamos los comandos del apartado errores
 mnuErrores.add_command(label="Mostrar errores", command=mostrarErrores)
+mnuErrores.add_command(label="Mostrar errores sintacticos", command=mostrarErroresSintacticos)
 
 
 

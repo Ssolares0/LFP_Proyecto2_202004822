@@ -51,10 +51,10 @@ class AnalizadorSintactico:
             self.analizar()              
         elif temp.tipo == 'reservada_EliminarColeccion':
             self.ELIMINARCOLECCION()
-            self.analizar()
+            
         elif temp.tipo == 'reservada_InsertarUnico':
             self.INSERTARUNICO()
-            self.analizar()
+            
         elif temp.tipo == 'reservada_ActualizarUnico':
             self.ACTUALIZARUNICO()
         elif temp.tipo == 'reservada_EliminarUnico':
@@ -113,7 +113,7 @@ class AnalizadorSintactico:
                                         return
                                     elif token.tipo == 'puntoYComa':
                                         
-                                        CrearBD(nombre_creacion)
+                                        bases.CrearBD(nombre_creacion)
                                         
                                         
                                     else:
@@ -130,7 +130,7 @@ class AnalizadorSintactico:
                             self.agregarError('reservada_CrearBD',token.tipo)
                             print('Error falta reservada CrearBD')
                     else:
-                        self.agregarError('identificador',token.tipo)
+                        self.agregarError('reservada nueva',token.tipo)
                         print('Error falta reservada nueva')
                 else:
                     self.agregarError('signoIgual',token.tipo)
@@ -191,7 +191,7 @@ class AnalizadorSintactico:
                                     elif token.tipo == 'puntoYComa':
                                         
                                         print('si llego ')
-                                        EliminarBD(nombre_creacion)
+                                        bases.EliminarBD(nombre_creacion)
                                         
                                         
                                     else:
@@ -221,17 +221,20 @@ class AnalizadorSintactico:
             print('Error')
 
     def CREARCOLECCION(self):
+
         
         token = self.sacarToken()
         if token.tipo == 'reservada_CrearColeccion':
+
             token = self.sacarToken()
+            
             
             if token is None:
                 self.agregarError('identificador','EOF')
                 return
             elif token.tipo ==  'identificador':
                 token = self.sacarToken()
-                nombre_creacion = token.lexema
+                
 
                 if token is None:
                     self.agregarError('signoIgual','EOF')
@@ -261,6 +264,7 @@ class AnalizadorSintactico:
                                     return    
                                 elif token.tipo == 'comillasDobles':
                                     token = self.sacarToken()
+                                    nombre_creacion = token.lexema
 
                                     if token is None:
                                         self.agregarError('identificador','EOF')
@@ -290,7 +294,7 @@ class AnalizadorSintactico:
 
                                                     
                                                     print('si llego al final de crear coleccion ')
-                                                    CrearColeccion(nombre_creacion)
+                                                    bases.CrearColeccion(nombre_creacion)
 
                                                 else:
                                                     self.agregarError('puntoYComa',token.tipo)
@@ -330,10 +334,122 @@ class AnalizadorSintactico:
             self.agregarError('reservada_CrearColeccion','EOF')
             print('Error')
 
+    def ELIMINARCOLECCION(self):
+        token = self.sacarToken()
+        if token.tipo == 'reservada_EliminarColeccion':
+
+            token = self.sacarToken()
+            
+            
+            if token is None:
+                self.agregarError('identificador','EOF')
+                return
+            elif token.tipo ==  'identificador':
+                token = self.sacarToken()
+                
+
+                if token is None:
+                    self.agregarError('signoIgual','EOF')
+                    return
+                elif token.tipo == 'signoIgual':
+                    token = self.sacarToken()
+
+                    if token is None:
+                        self.agregarError('reservada_nueva','EOF')
+                        return
+                    elif token.tipo == 'reservada_nueva':
+                        token = self.sacarToken()
+
+                        if token is None:
+                            self.agregarError('reservada_EliminarColeccion','EOF')
+                            return
+                        elif token.tipo == 'reservada_EliminarColeccion':
+                            token = self.sacarToken()
+
+                            if token is None:
+                                self.agregarError('parentesisIzquierdo','EOF')
+                            elif token.tipo == 'parentesisIzquierdo':
+                                token = self.sacarToken()
+
+                                if token is None:
+                                    self.agregarError('comillasDobles','EOF')
+                                    return    
+                                elif token.tipo == 'comillasDobles':
+                                    token = self.sacarToken()
+                                    nombre_creacion = token.lexema
+
+                                    if token is None:
+                                        self.agregarError('identificador','EOF')
+                                        return
+                                    elif token.tipo == 'identificador':
+                                        token = self.sacarToken()
+                                        
+
+                                        
+                                        if token is None:
+                                            self.agregarError('comillasDobles','EOF')
+                                            return
+                                        elif token.tipo == 'comillasDobles':
+                                            token = self.sacarToken()
+
+                                            if token is None:
+                                                self.agregarError('parentesisDerecho','EOF')
+                                                return    
+                                            elif token.tipo == 'parentesisDerecho':
+                                                token = self.sacarToken()
+
+
+                                                if token is None:
+                                                    self.agregarError('puntoYComa','EOF')
+                                                    return
+                                                elif token.tipo == 'puntoYComa':
+
+                                                    
+                                                    print('si llego al final de eliminar coleccion ')
+                                                    bases.EliminarColeccion(nombre_creacion)
+
+                                                else:
+                                                    self.agregarError('puntoYComa',token.tipo)
+                                                    print('Error falta punto y coma')
+                                                
+                                            else:
+                                                self.agregarError('parentesisDerecho',token.tipo)
+                                                print('Error falta parentesisDerecho')
+
+                                        else:
+                                            self.agregarError('comillasDobles',token.tipo)
+                                            print('Error falta comillasDobles')
+                                        
+                                    else:
+                                        self.agregarError('identificador',token.tipo)
+                                        print('Error falta identificador')    
+
+                                else:
+                                    self.agregarError('comillasDobles',token.tipo)
+                                    print('Error falta comillasDobles')
+                            else:
+                                self.agregarError('parentesisIzquierdo',token.tipo)
+                                print('Error falta parentesis Izquierdo')
+                        else:
+                            self.agregarError('reservada_EliminarColeccion',token.tipo)
+                            print('Error falta reservada_EliminarColeccion')
+                    else:
+                        self.agregarError('reservada_nueva',token.tipo)
+                        print('Error falta reservada_nueva')
+                else:
+                    self.agregarError('signoIgual',token.tipo)
+                    print('Error falta signo igual')
+            else:
+                self.agregarError('identificador',token.tipo)
+                print('Error falta identificador')
+        else:
+            self.agregarError('reservada_EliminarColeccion','EOF')
+            print('Error')
+        
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''
-        '''x = PrettyTable()
+        x = PrettyTable()
         x.field_names = ["Descripcion"]
         for error_ in self.errores:
             x.add_row([error_])
-        print(x)           '''
+        print(x)           

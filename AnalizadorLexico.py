@@ -76,7 +76,7 @@ class AnalizadorLex:
             self.columna = 0
         elif caracter in ['\t',' ']:
             self.columna += 1
-        elif caracter == '#':
+        elif caracter == '^':
             print('Se terminó el análisis')
         else:
             self.agregar_error(caracter,self.linea,self.columna)               
@@ -159,7 +159,7 @@ class AnalizadorLex:
     
 
     def analizar(self, cadena):
-        cadena = cadena + '#'
+        cadena = cadena + '^'
         
         self.listaErrores = []
         self.listaTokens = []
