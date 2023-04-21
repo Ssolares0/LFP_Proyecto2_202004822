@@ -31,7 +31,7 @@ def windowOpenFile():
     global objeto
     global ruta
     try:
-        ruta = filedialog.askopenfilename(filetypes = (("JSON file","json"),("TXT file","txt"),("all files","*.*")))
+        ruta = filedialog.askopenfilename(filetypes = ())
         leerRuta = open(ruta,"r")
         labelFrame.insert(END,leerRuta.read())
     except:
@@ -108,44 +108,44 @@ def generarMongoDB():
     global lsttk2
     global lsttkErrores
     global lsttkErroresSintacticos
-    try:
-        cadena = open(ruta,"r+",encoding="utf-8")
-        cadenaleido = cadena.read()
+    
+    cadena = open(ruta,"r+",encoding="utf-8")
+    cadenaleido = cadena.read()
 
-        mandar = AnalizadorLex()
+    mandar = AnalizadorLex()
         
 
         
         #mandamos el contenido del archivo a analizar
-        mandar.analizar(cadenaleido)
+    mandar.analizar(cadenaleido)
 
         #imprimimos los tokens y errores
         
 
         #mandamos la lista de tokens a analizar
-        lsttk = mandar.listaTokens
+    lsttk = mandar.listaTokens
 
-        lsttk2=mandar.listaTokensOriginal
+    lsttk2=mandar.listaTokensOriginal
 
-        lsttkErrores = mandar.listaErrores
+    lsttkErrores = mandar.listaErrores
         
 
         
         #mandamos la lista de tokens a analizar
-        sintactico = AnalizadorSintactico(lsttk)
-        sintactico.analizar()
-        lsttkErroresSintacticos = sintactico.errores
+    sintactico = AnalizadorSintactico(lsttk)
+    sintactico.analizar()
+    lsttkErroresSintacticos = sintactico.errores
 
         
         
 
         #imprimimos los errores sintacticos
-        sintactico.imprimirErrores()
+    sintactico.imprimirErrores()
         
-        mostrarSalida()
+    mostrarSalida()
         
-    except:
-        messagebox.showinfo(message=" Primero cargue el archivo", title=":)")
+    
+    #messagebox.showinfo(message=" Primero cargue el archivo", title=":)")
    
     
 

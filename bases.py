@@ -20,4 +20,27 @@ class bases():
         #print(f'db.{name}.drop();')
         salidas.append(f'db.{name}.drop();')
 
+    def InsertarUnico(nameCreacion,name1,name2,autor1,autor2):
+        dicc ={
+            "nombre": name1+" "+name2,
+            "autor": autor1+" "+autor2
+        }
+
+        #values
+        #print(f'db.{name}.insert({values});')
+        salidas.append(f'db.{nameCreacion}.insertOne({dicc});')   
+
+    def ActualizarUnico(nameCreacion,name1,name2,name3,name4,name5,name6): 
+        dicc={
+            name1: name2+" "+name3,
+        },{
+            '$set':{name4: name5+" "+name6}
+        }
+        salidas.append(f'db.{nameCreacion}.updateOne{dicc};')
+         
+    
+    def BuscarTodo(name):
+        #print(f'db.{name}.find();')
+        salidas.append(f'db.{name}.find();')
+
 
