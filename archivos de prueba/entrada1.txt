@@ -11,8 +11,6 @@ InsertarUnico insertadoc = nueva InsertarUnico("NombreColeccion",
  }
 ");
 
-
-
 ActualizarUnico actualizadoc = nueva ActualizarUnico("NombreColeccion",
 "
 {
@@ -28,8 +26,14 @@ EliminarUnico eliminadoc = nueva EliminarUnico("NombreColeccion",
  "nombre" : "Obra Literaria"
 }
 ");
+
 BuscarTodo todo = nueva BuscarTodo ("NombreColeccion");
 BuscarUnico todo = nueva BuscarUnico ("NombreColeccion");
+
+
+
+
+
 
 
 

@@ -38,9 +38,19 @@ class bases():
         }
         salidas.append(f'db.{nameCreacion}.updateOne{dicc};')
          
-    
+    def EliminarUnico(nameCreacion,name1,name2,name3):
+        dicc={
+            name1: name2+" "+name3,
+        }
+        salidas.append(f'db.{nameCreacion}.deleteOne{dicc};')
+        
+        
     def BuscarTodo(name):
         #print(f'db.{name}.find();')
         salidas.append(f'db.{name}.find();')
+
+    def BuscarUnico(name):
+        #print(f'db.{name}.findOne();')
+        salidas.append(f'db.{name}.findOne();')    
 
 

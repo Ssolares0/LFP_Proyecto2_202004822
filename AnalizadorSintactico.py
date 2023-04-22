@@ -62,14 +62,14 @@ class AnalizadorSintactico:
             self.ACTUALIZARUNICO()
             self.analizar()
         elif temp.tipo == 'reservada_EliminarUnico':
-            #self.ELIMINARUNICO()
-            pass
+            self.ELIMINARUNICO()
+            self.analizar()
         elif temp.tipo == 'reservada_BuscarTodo':
             self.BUSCARTODO()
             self.analizar()
         elif temp.tipo == 'reservada_BuscarUnico':
-            #self.BUSCARUNICO()
-            pass
+            self.BUSCARUNICO()
+            self.analizar()
             
         else:
             self.agregarError('reservada_CrearBD | reservada_ElmiminarBD | reservada_CrearColeccion | reservada_EliminarColeccion | InsertarUnico | reservada_ActualizarUnico | reservada_EliminarUnico | reservada_BuscarTodo | reservada_BuscarUnico',temp.tipo) 
@@ -1330,7 +1330,368 @@ class AnalizadorSintactico:
         else:
             self.agregarError('reservada_BuscarTodo','EOF')
             print('Error')
-        
+    def BUSCARUNICO(self):
+        print('entro a buscar unico')
+        token = self.sacarToken()
+        if token.tipo == 'reservada_BuscarUnico':
+
+            token = self.sacarToken()
+            
+            
+            if token is None:
+                self.agregarError('identificador','EOF')
+                return
+            elif token.tipo ==  'identificador':
+                token = self.sacarToken()
+                
+
+                if token is None:
+                    self.agregarError('signoIgual','EOF')
+                    return
+                elif token.tipo == 'signoIgual':
+                    token = self.sacarToken()
+
+                    if token is None:
+                        self.agregarError('reservada_nueva','EOF')
+                        return
+                    elif token.tipo == 'reservada_nueva':
+                        token = self.sacarToken()
+
+                        if token is None:
+                            self.agregarError('reservada_BuscarUnico','EOF')
+                            return
+                        elif token.tipo == 'reservada_BuscarUnico':
+                            token = self.sacarToken()
+
+                            if token is None:
+                                self.agregarError('parentesisIzquierdo','EOF')
+                            elif token.tipo == 'parentesisIzquierdo':
+                                token = self.sacarToken()
+
+                                if token is None:
+                                    self.agregarError('comillasDobles','EOF')
+                                    return    
+                                elif token.tipo == 'comillasDobles':
+                                    token = self.sacarToken()
+                                    nombre_creacion = token.lexema
+
+                                    if token is None:
+                                        self.agregarError('identificador','EOF')
+                                        return
+                                    elif token.tipo == 'identificador':
+                                        token = self.sacarToken()
+                                        
+
+                                        
+                                        if token is None:
+                                            self.agregarError('comillasDobles','EOF')
+                                            return
+                                        elif token.tipo == 'comillasDobles':
+                                            token = self.sacarToken()
+
+                                            if token is None:
+                                                self.agregarError('parentesisDerecho','EOF')
+                                                return    
+                                            elif token.tipo == 'parentesisDerecho':
+                                                token = self.sacarToken()
+
+
+                                                if token is None:
+                                                    self.agregarError('puntoYComa','EOF')
+                                                    return
+                                                elif token.tipo == 'puntoYComa':
+
+                                                    
+                                                    print('si llego al final de BUSCAR unico ')
+                                                    bases.BuscarUnico(nombre_creacion)
+
+                                                else:
+                                                    self.agregarError('puntoYComa',token.tipo)
+                                                    print('Error falta punto y coma')
+                                                
+                                            else:
+                                                self.agregarError('parentesisDerecho',token.tipo)
+                                                print('Error falta parentesisDerecho')
+
+                                        else:
+                                            self.agregarError('comillasDobles',token.tipo)
+                                            print('Error falta comillasDobles')
+                                        
+                                    else:
+                                        self.agregarError('identificador',token.tipo)
+                                        print('Error falta identificador')    
+
+                                else:
+                                    self.agregarError('comillasDobles',token.tipo)
+                                    print('Error falta comillasDobles')
+                            else:
+                                self.agregarError('parentesisIzquierdo',token.tipo)
+                                print('Error falta parentesis Izquierdo')
+                        else:
+                            self.agregarError('reservada_BuscarUnico',token.tipo)
+                            print('Error falta reservada_BuscarUnico')
+                    else:
+                        self.agregarError('reservada_nueva',token.tipo)
+                        print('Error falta reservada_nueva')
+                else:
+                    self.agregarError('signoIgual',token.tipo)
+                    print('Error falta signo igual')
+            else:
+                self.agregarError('identificador',token.tipo)
+                print('Error falta identificador')
+        else:
+            self.agregarError('reservada_BuscarUnico','EOF')
+            print('Error')
+    def ELIMINARUNICO(self):
+        print('entro a eliminar unico')
+        token = self.sacarToken()
+        if token.tipo == 'reservada_EliminarUnico':
+
+            token = self.sacarToken()
+            
+            
+            if token is None:
+                self.agregarError('identificador','EOF')
+                return
+            elif token.tipo ==  'identificador':
+                token = self.sacarToken()
+                
+
+                if token is None:
+                    self.agregarError('signoIgual','EOF')
+                    return
+                elif token.tipo == 'signoIgual':
+                    token = self.sacarToken()
+
+                    if token is None:
+                        self.agregarError('reservada_nueva','EOF')
+                        return
+                    elif token.tipo == 'reservada_nueva':
+                        token = self.sacarToken()
+
+                        if token is None:
+                            self.agregarError('reservada_EliminarUnico','EOF')
+                            return
+                        elif token.tipo == 'reservada_EliminarUnico':
+                            token = self.sacarToken()
+
+                            if token is None:
+                                self.agregarError('parentesisIzquierdo','EOF')
+                            elif token.tipo == 'parentesisIzquierdo':
+                                token = self.sacarToken()
+
+                                if token is None:
+                                    self.agregarError('comillasDobles','EOF')
+                                    return    
+                                elif token.tipo == 'comillasDobles':
+                                    token = self.sacarToken()
+                                    nombre_creacion = token.lexema
+
+                                    if token is None:
+                                        self.agregarError('identificador','EOF')
+                                        return
+                                    elif token.tipo == 'identificador':
+                                        token = self.sacarToken()
+                                        
+
+                                        
+                                        if token is None:
+                                            self.agregarError('comillasDobles','EOF')
+                                            return
+                                        elif token.tipo == 'comillasDobles':
+                                            token = self.sacarToken()
+
+                                            if token is None:
+                                                self.agregarError('coma','EOF')
+                                                return
+                                            elif token.tipo == 'coma':
+                                                token = self.sacarToken()
+
+                                                if token is None:
+                                                    self.agregarError('comillasDobles','EOF')
+                                                    return
+                                                elif token.tipo == 'comillasDobles':
+                                                    token = self.sacarToken()
+
+                                                    if token is None:
+                                                        self.agregarError('llaveIzquierda','EOF')
+                                                        return
+                                                    elif token.tipo == 'llaveIzquierda':
+                                                        token = self.sacarToken()
+
+                                                        if token is None:
+                                                            self.agregarError('comillasDobles','EOF')
+                                                            return
+                                                        elif token.tipo == 'comillasDobles':
+                                                            token = self.sacarToken()
+                                                            name1=token.lexema
+
+                                                            if token is None:
+                                                                self.agregarError('identificador','EOF')
+                                                                return
+                                                            elif token.tipo == 'identificador':
+                                                                token = self.sacarToken()
+
+                                                                if token is None:
+                                                                    self.agregarError('comillasDobles','EOF')
+                                                                    return
+                                                                elif token.tipo == 'comillasDobles':
+                                                                    token = self.sacarToken()
+
+                                                                    if token is None:
+                                                                        self.agregarError('dosPuntos','EOF')
+                                                                        return
+                                                                    elif token.tipo == 'dosPuntos':
+                                                                        token = self.sacarToken()
+
+                                                                        if token is None:
+                                                                            self.agregarError('comillasDobles','EOF')
+                                                                            return
+                                                                        elif token.tipo == 'comillasDobles':
+                                                                            token = self.sacarToken()
+                                                                            name2=token.lexema
+                                                                            
+
+                                                                            if token is None:
+                                                                                self.agregarError('identificador','EOF')
+                                                                                return
+                                                                            elif token.tipo == 'identificador':
+                                                                                token = self.sacarToken()
+                                                                                name3=token.lexema
+
+                                                                                if token is None:
+                                                                                    self.agregarError('identificador','EOF')
+                                                                                    return
+                                                                                elif token.tipo == 'identificador':
+                                                                                    token = self.sacarToken()
+                                                                                    if token is None:
+                                                                                            self.agregarError('comillasDobles','EOF')
+                                                                                            return
+                                                                                    elif token.tipo == 'comillasDobles':
+                                                                                            token = self.sacarToken()
+
+                                                                                            if token is None:
+                                                                                                self.agregarError('llaveDerecha','EOF')
+                                                                                                return
+                                                                                            elif token.tipo == 'llaveDerecha':
+                                                                                                token = self.sacarToken()
+
+                                                                                                if token is None:
+                                                                                                    self.agregarError('comillasDobles','EOF')
+                                                                                                    return
+                                                                                                elif token.tipo == 'comillasDobles':
+                                                                                                    token = self.sacarToken()                                   
+
+                                                                                                    if token is None:
+                                                                                                        self.agregarError('parentesisDerecho','EOF')
+                                                                                                        return    
+                                                                                                    elif token.tipo == 'parentesisDerecho':
+                                                                                                        token = self.sacarToken()
+
+
+                                                                                                        if token is None:
+                                                                                                            self.agregarError('puntoYComa','EOF')
+                                                                                                            return
+                                                                                                        elif token.tipo == 'puntoYComa':
+
+                                                                                                                                            
+                                                                                                            print('si llego al final de EliminarUnico ')
+                                                                                                            bases.EliminarUnico(nombre_creacion,name1,name2,name3)
+
+                                                                                                        else:
+                                                                                                            self.agregarError('puntoYComa',token.tipo)
+                                                                                                            print('Error falta punto y coma')
+                                                                                                    else:
+                                                                                                        self.agregarError('parentesisDerecho',token.tipo)
+                                                                                                        print('Error falta parentesisDerecho')      
+                                                                                        
+                                                                                                else:
+                                                                                                    self.agregarError('comillasDobles',token.tipo)
+                                                                                                    print('Error falta comillasDobles en JSON')                    
+                                                                                                                        
+                                                                                                           
+
+                                                                                                                           
+                                                                                            else:
+                                                                                                self.agregarError('llaveDerecha',token.tipo)
+                                                                                                print('Error falta llaveDerecha en JSON')
+                                                                                                
+
+
+                                                                                    else:
+                                                                                        self.agregarError('comillasDobles',token.tipo)
+                                                                                        print('Error falta comillasDobles en JSON')    
+
+                                                                                else:
+                                                                                    self.agregarError('identificador',token.tipo)
+                                                                                    print('Error falta identificador en JSON')
+
+                                                                            else:
+                                                                                self.agregarError('identificador',token.tipo)
+                                                                                print('Error falta identificador en JSON')
+                                                                
+                                                                        else:
+                                                                            self.agregarError('comillasDobles',token.tipo)
+                                                                            print('Error falta comillasDobles en JSON')
+                                                                        
+                                                                    
+                                                                    else:
+                                                                        self.agregarError('dosPuntos',token.tipo)
+                                                                        print('Error falta dosPuntos en JSON')
+                                                                    
+                                                                
+                                                                else:
+                                                                    self.agregarError('comillasDobles',token.tipo)
+                                                                    print('Error falta comillasDobles en JSON')
+
+                                                            else:
+                                                                self.agregarError('identificador',token.tipo)
+                                                                print('Error falta identificador en JSON')
+                                                        else:
+                                                            self.agregarError('comillasDobles',token.tipo)
+                                                            print('Error falta comillasDobles en JSON')
+
+                                                    else:
+                                                        self.agregarError('llaveIzquierda',token.tipo)
+                                                        print('Error falta llave Izquierda en JSON')
+                                                    
+                                                else:
+                                                    self.agregarError('comillasDobles',token.tipo)
+                                                    print('Error falta comillasDobles en el JSON')
+
+                                            else:
+                                                self.agregarError('coma',token.tipo)
+                                                print('Error falta coma')
+
+                                        else:
+                                            self.agregarError('comillasDobles',token.tipo)
+                                            print('Error falta comillasDobles')
+                                        
+                                    else:
+                                        self.agregarError('identificador',token.tipo)
+                                        print('Error falta identificador')    
+
+                                else:
+                                    self.agregarError('comillasDobles',token.tipo)
+                                    print('Error falta comillasDobles')
+                            else:
+                                self.agregarError('parentesisIzquierdo',token.tipo)
+                                print('Error falta parentesis Izquierdo')
+                        else:
+                            self.agregarError('reservada_EliminarUnico',token.tipo)
+                            print('Error falta reservada_EliminarUnico ')
+                    else:
+                        self.agregarError('reservada_EliminarUnico',token.tipo)
+                        print('Error falta reservada_EliminarUnico')
+                else:
+                    self.agregarError('signoIgual',token.tipo)
+                    print('Error falta signo igual')
+            else:
+                self.agregarError('identificador',token.tipo)
+                print('Error falta identificador')
+        else:
+            self.agregarError('reservada_EliminarUnico','EOF')
+            print('Error')
     def imprimirErrores(self):
         '''Imprime una tabla con los errores'''
         '''x = PrettyTable()
