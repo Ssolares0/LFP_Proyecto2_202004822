@@ -30,10 +30,17 @@ Label(window,text="Proyecto 2 LFP",bg="SteelBlue1",fg="black",font=("times new r
 def windowOpenFile():
     global objeto
     global ruta
+    global rutaname2
     try:
         ruta = filedialog.askopenfilename(filetypes = ())
         leerRuta = open(ruta,"r")
         labelFrame.insert(END,leerRuta.read())
+        
+
+        rutaname=os.path.split(ruta)
+        rutaname2=rutaname[1]
+        print(rutaname)
+        
     except:
         messagebox.showerror("ERROR","No se ha cargado correctamente la ruta")   
 
@@ -64,6 +71,7 @@ def new_File():
                         pass 
                 else:
                     labelFrame.delete(1.0,END)
+                    ruta.close()
                     
         except:
             labelFrame.delete(1.0,END)
@@ -143,6 +151,7 @@ def generarMongoDB():
     sintactico.imprimirErrores()
         
     mostrarSalida()
+    
         
     
     #messagebox.showinfo(message=" Primero cargue el archivo", title=":)")
@@ -181,6 +190,7 @@ def mostrarTokens():
         tabla.heading("#4",text="tipo")
         mostrarDatos(tabla)
         ventana.mainloop()
+        
     except:
         messagebox.showinfo(message="Analice Primero el archivo", title=":)")
         
@@ -257,6 +267,16 @@ def mostrarSalida():
         for x in lstSalidas:
             labelFrame2.insert(END,f"{x}\n")
         lstSalidas.clear()
+
+        with open(f'Salida/{rutaname2}','w') as myfile:
+            
+            archivoTextsalida = str(labelFrame2.get(1.0,END))
+            
+            myfile.seek(0)
+            myfile.write(archivoTextsalida)
+            myfile.truncate()
+            
+        
             
         
         

@@ -1,0 +1,11 @@
+use('ejemplo');
+db.dropDatabase();
+use('ejemplo2');
+db.createCollection('NombreColeccion');
+db.NombreColeccion.drop();
+db.NombreColeccion.insertOne({'nombre': 'Obra Literaria', 'autor': 'Jorge Luis'});
+db.NombreColeccion.updateOne({'nombre': 'Obra Literaria'}, {'$set': {'autor': 'Mario Vargas'}});
+db.NombreColeccion.deleteOne{'nombre': 'Obra Literaria'};
+db.NombreColeccion.find();
+db.NombreColeccion.findOne();
+

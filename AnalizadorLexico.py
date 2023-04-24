@@ -75,8 +75,11 @@ class AnalizadorLex:
         elif caracter == '$':
             self.estado = 11
             self.buffer += caracter
-            self.columna += 1    
-                           
+            self.columna += 1   
+
+        
+
+
         elif caracter== '\n':
             self.linea += 1
             self.columna = 0
@@ -164,9 +167,14 @@ class AnalizadorLex:
         '''Estado S5'''                
         self.agregar_token(self.buffer,self.linea,self.columna,'dollar')
         self.estado = 0
-        self.i -=   1    
+        self.i -=   1  
+    def s12(self,caracter : str):
+        '''Estado S5'''                
+        self.agregar_token(self.buffer,self.linea,self.columna,'comentario1')
+        self.estado = 0
+        self.i -=   1       
                   
-
+    
 
     
 
@@ -201,7 +209,9 @@ class AnalizadorLex:
                 self.s10(cadena[self.i]) 
 
             elif self.estado == 11:
-                self.s11(cadena[self.i])       
+                self.s11(cadena[self.i])
+
+            
                                               
 
             self.i += 1    

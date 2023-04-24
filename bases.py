@@ -51,6 +51,20 @@ class bases():
 
     def BuscarUnico(name):
         #print(f'db.{name}.findOne();')
-        salidas.append(f'db.{name}.findOne();')    
+        salidas.append(f'db.{name}.findOne();')
 
+
+    def mostrarSalida():
+        lstSalidas = salidas
+        with open('Salida/salida.txt','r+') as myfile:
+            data = myfile.read()
+            myfile.seek(0)
+            for x in lstSalidas:
+                myfile.write(x[0])
+                myfile.truncate()
+            
+            
+
+
+    
 
