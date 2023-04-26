@@ -101,3 +101,11 @@ SINTACTICO:
     buscarTodo : BuscarTodo ID = nueva BuscarTodo ( STRING )
 
     buscarUnico : BuscarUnico ID = nueva BuscarUnico ( STRING )
+
+
+# AFD
+![insertando imagen](teo3.jpeg)
+
+# Metodo del Arbol
+![insertando imagen](teo1.jpeg)
+![insertando imagen](teo2.jpeg)
